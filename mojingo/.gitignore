@@ -1,0 +1,73 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Diagnostics
+*.tsbuildinfo
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# dotenv environment variables file
+.env
+.env.*
+!.env.example
+!.env.template
+
+# Build / Output directories
+dist/
+dist-ssr/
+build/
+out/
+.next/
+.nuxt/
+
+# Server dynamic uploads / media
+server/uploads/
+!server/uploads/.gitkeep
+
+# OS metadata
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+*.cab
+*.msi
+*.msm
+*.msp
+$RECYCLE.BIN/
+
+# IDEs and editors
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
