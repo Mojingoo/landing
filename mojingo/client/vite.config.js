@@ -15,6 +15,9 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  optimizeDeps: {
+    include: ['react-helmet-async'],
+  },
   server: {
     host: true,
     allowedHosts: [

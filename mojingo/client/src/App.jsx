@@ -14,6 +14,8 @@ import WhyPeopleChooseMojingo from './components/sections/WhyPeopleChooseMojingo
 import ContactUs from './pages/ContactUs'
 import Blog from './pages/Blog'
 import Legal from './pages/Legal'
+import BlogPostPage from './pages/BlogPostPage'
+
 
 // Admin imports
 import AdminLogin from './pages/admin/AdminLogin'
@@ -68,6 +70,8 @@ export default function App() {
           <Route path="/legal" element={<MainLayout><Legal /></MainLayout>} />
           <Route path="/legal/:tab" element={<MainLayout><Legal /></MainLayout>} />
           <Route path="/contact" element={<MainLayout><ContactUs /></MainLayout>} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPostPage />} />
 
           {/* Admin Routes */}
           <Route path="/admin/login" element={<AdminLogin />} />

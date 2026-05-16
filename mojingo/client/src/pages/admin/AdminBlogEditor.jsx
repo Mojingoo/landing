@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { ArrowLeft, Save, Eye, EyeOff } from 'lucide-react'
+import { ArrowLeft, Save, EyeOff } from 'lucide-react'
 import api from '@/lib/api'
 import RichTextEditor from '@/components/ui/RichTextEditor'
 
@@ -12,6 +11,16 @@ function generateSlug(title) {
         .replace(/[^a-z0-9\s-]/g, '')
         .replace(/\s+/g, '-')
         .replace(/-+/g, '-')
+}
+
+// Character counter for SEO fields
+function CharCount({ value, max }) {
+    const len = value?.length || 0
+    return (
+        <span className={`text-xs ml-auto tabular-nums ${len > max ? 'text-red-500' : 'text-[#3D3D3D]/40'}`}>
+            {len}/{max}
+        </span>
+    )
 }
 
 const CATEGORIES = ['General', 'Product', 'Growth', 'Design', 'Engineering', 'News']
@@ -29,6 +38,8 @@ export default function AdminBlogEditor() {
         coverImage: '',
         category: 'General',
         author: 'Mojingo Team',
+        metaTitle: '',           // NEW — SEO
+        metaDescription: '',     // NEW — SEO
         published: false,
     })
     const [imageFile, setImageFile] = useState(null)
@@ -37,7 +48,7 @@ export default function AdminBlogEditor() {
     const [loading, setLoading] = useState(false)
     const [fetchLoading, setFetchLoading] = useState(isEditing)
     const [serverError, setServerError] = useState('')
-    const [slugManual, setSlugManual] = useState(false)  // true = user edited slug manually
+    const [slugManual, setSlugManual] = useState(false)
 
     // If editing — fetch existing post data
     useEffect(() => {
@@ -55,13 +66,19 @@ export default function AdminBlogEditor() {
                     coverImage: post.coverImage || '',
                     category: post.category || 'General',
                     author: post.author || 'Mojingo Team',
+                    metaTitle: post.metaTitle || '',   // NEW
+                    metaDescription: post.metaDescription || '',   // NEW
                     published: post.published || false,
                 })
                 if (post.coverImage) {
                     const baseUrl = import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:5000'
-                    setImagePreview(post.coverImage.startsWith('http') ? post.coverImage : `${baseUrl}${post.coverImage}`)
+                    setImagePreview(
+                        post.coverImage.startsWith('http')
+                            ? post.coverImage
+                            : `${baseUrl}${post.coverImage}`
+                    )
                 }
-                setSlugManual(true)  // don't auto-generate slug when editing
+                setSlugManual(true)
             })
             .catch(() => navigate('/admin/blog'))
             .finally(() => setFetchLoading(false))
@@ -73,9 +90,12 @@ export default function AdminBlogEditor() {
 
         setForm(prev => {
             const updated = { ...prev, [name]: newValue }
-            // Auto-generate slug from title unless user has manually changed it
             if (name === 'title' && !slugManual) {
                 updated.slug = generateSlug(value)
+                // Also auto-populate metaTitle from title (only on new posts)
+                if (!isEditing) {
+                    updated.metaTitle = value.slice(0, 60)
+                }
             }
             return updated
         })
@@ -86,7 +106,6 @@ export default function AdminBlogEditor() {
     function handleFileChange(e) {
         const file = e.target.files[0]
         if (!file) return
-
         setImageFile(file)
         setImagePreview(URL.createObjectURL(file))
         if (errors.coverImage) setErrors(prev => ({ ...prev, coverImage: '' }))
@@ -102,7 +121,6 @@ export default function AdminBlogEditor() {
         const e = {}
         if (!form.title.trim()) e.title = 'Title is required'
         if (!form.slug.trim()) e.slug = 'Slug is required'
-        // Strip HTML tags to check if content is actually empty
         const plainContent = form.content.replace(/<[^>]*>/g, '').trim()
         if (!plainContent) e.content = 'Content is required'
         return e
@@ -116,7 +134,6 @@ export default function AdminBlogEditor() {
 
         setLoading(true)
 
-        // Use FormData for file upload
         const formData = new FormData()
         formData.append('title', form.title)
         formData.append('slug', form.slug)
@@ -125,8 +142,9 @@ export default function AdminBlogEditor() {
         formData.append('category', form.category)
         formData.append('author', form.author)
         formData.append('published', form.published)
+        formData.append('metaTitle', form.metaTitle)       // NEW
+        formData.append('metaDescription', form.metaDescription) // NEW
 
-        // Only append coverImage once — either the file or the existing URL string
         if (imageFile) {
             formData.append('coverImage', imageFile)
         } else if (form.coverImage) {
@@ -151,6 +169,12 @@ export default function AdminBlogEditor() {
         }
     }
 
+    // Shared input class — unchanged from original
+    const inputClass = (hasError) => `w-full px-5 py-3.5 rounded-[14px] border text-sm text-[#3D3D3D] outline-none transition-colors bg-white ${hasError
+        ? 'border-red-400'
+        : 'border-[rgba(190,190,190,0.4)] focus:border-[#FF4F93]'
+        }`
+
     if (fetchLoading) {
         return (
             <div className="min-h-screen flex items-center justify-center">
@@ -162,7 +186,7 @@ export default function AdminBlogEditor() {
     return (
         <div className="p-8 max-w-4xl mx-auto">
 
-            {/* Header */}
+            {/* ── Header ─────────────────────────────── */}
             <div className="flex items-center gap-4 mb-8">
                 <button
                     onClick={() => navigate('/admin/blog')}
@@ -182,7 +206,7 @@ export default function AdminBlogEditor() {
 
             <form onSubmit={handleSave} className="flex flex-col gap-6" noValidate>
 
-                {/* Title */}
+                {/* ── Title ──────────────────────────── */}
                 <div className="flex flex-col gap-1.5">
                     <label className="text-sm font-semibold text-[#3D3D3D]">Title *</label>
                     <input
@@ -191,19 +215,19 @@ export default function AdminBlogEditor() {
                         value={form.title}
                         onChange={handleChange}
                         placeholder="Enter post title..."
-                        className={`w-full px-5 py-3.5 rounded-[14px] border text-sm text-[#3D3D3D] outline-none transition-colors bg-white
-              ${errors.title ? 'border-red-400' : 'border-[rgba(190,190,190,0.4)] focus:border-[#FF4F93]'}`}
+                        className={inputClass(errors.title)}
                     />
                     {errors.title && <p className="text-xs text-red-500">{errors.title}</p>}
                 </div>
 
-                {/* Slug */}
+                {/* ── Slug ───────────────────────────── */}
                 <div className="flex flex-col gap-1.5">
                     <label className="text-sm font-semibold text-[#3D3D3D]">
                         Slug *
                         <span className="ml-2 text-xs text-[#3D3D3D]/40 font-normal">(auto-generated from title)</span>
                     </label>
-                    <div className="flex items-center rounded-[14px] border border-[rgba(190,190,190,0.4)] focus-within:border-[#FF4F93] transition-colors overflow-hidden bg-white">
+                    <div className={`flex items-center rounded-[14px] border transition-colors overflow-hidden bg-white focus-within:border-[#FF4F93] ${errors.slug ? 'border-red-400' : 'border-[rgba(190,190,190,0.4)]'
+                        }`}>
                         <span className="px-4 py-3.5 text-sm text-[#3D3D3D]/40 bg-gray-50 border-r border-[rgba(190,190,190,0.2)] whitespace-nowrap select-none">
                             /blog/
                         </span>
@@ -219,7 +243,7 @@ export default function AdminBlogEditor() {
                     {errors.slug && <p className="text-xs text-red-500">{errors.slug}</p>}
                 </div>
 
-                {/* Category + Author */}
+                {/* ── Category + Author ──────────────── */}
                 <div className="grid sm:grid-cols-2 gap-5">
                     <div className="flex flex-col gap-1.5">
                         <label className="text-sm font-semibold text-[#3D3D3D]">Category</label>
@@ -227,7 +251,7 @@ export default function AdminBlogEditor() {
                             name="category"
                             value={form.category}
                             onChange={handleChange}
-                            className="w-full px-5 py-3.5 rounded-[14px] border border-[rgba(190,190,190,0.4)] focus:border-[#FF4F93] text-sm text-[#3D3D3D] outline-none transition-colors bg-white"
+                            className={inputClass(false)}
                         >
                             {CATEGORIES.map(c => (
                                 <option key={c} value={c}>{c}</option>
@@ -242,12 +266,12 @@ export default function AdminBlogEditor() {
                             value={form.author}
                             onChange={handleChange}
                             placeholder="Author name"
-                            className="w-full px-5 py-3.5 rounded-[14px] border border-[rgba(190,190,190,0.4)] focus:border-[#FF4F93] text-sm text-[#3D3D3D] outline-none transition-colors bg-white"
+                            className={inputClass(false)}
                         />
                     </div>
                 </div>
 
-                {/* Cover Image Upload */}
+                {/* ── Cover Image ────────────────────── */}
                 <div className="flex flex-col gap-1.5">
                     <label className="text-sm font-semibold text-[#3D3D3D]">Cover Image</label>
                     <div className="flex flex-col gap-3">
@@ -264,8 +288,7 @@ export default function AdminBlogEditor() {
                         >
                             {imageFile ? 'Change Image' : 'Upload Cover Image'}
                         </label>
-                        
-                        {/* Image preview */}
+
                         {imagePreview && (
                             <div className="relative rounded-[14px] overflow-hidden h-48 bg-gray-100 border border-[rgba(190,190,190,0.2)]">
                                 <img
@@ -275,7 +298,11 @@ export default function AdminBlogEditor() {
                                 />
                                 <button
                                     type="button"
-                                    onClick={() => { setImageFile(null); setImagePreview(''); setForm(prev => ({ ...prev, coverImage: '' })) }}
+                                    onClick={() => {
+                                        setImageFile(null)
+                                        setImagePreview('')
+                                        setForm(prev => ({ ...prev, coverImage: '' }))
+                                    }}
                                     className="absolute top-2 right-2 p-1.5 bg-black/50 hover:bg-black/70 text-white rounded-full backdrop-blur-sm transition-colors"
                                 >
                                     <EyeOff size={14} />
@@ -285,7 +312,7 @@ export default function AdminBlogEditor() {
                     </div>
                 </div>
 
-                {/* Excerpt */}
+                {/* ── Excerpt ────────────────────────── */}
                 <div className="flex flex-col gap-1.5">
                     <label className="text-sm font-semibold text-[#3D3D3D]">
                         Excerpt
@@ -299,11 +326,11 @@ export default function AdminBlogEditor() {
                     />
                 </div>
 
-                {/* Content */}
+                {/* ── Content ────────────────────────── */}
                 <div className="flex flex-col gap-1.5">
                     <label className="text-sm font-semibold text-[#3D3D3D]">
                         Content *
-                        <span className="ml-2 text-xs text-[#3D3D3D]/40 font-normal">(supports bold, italic, and bullet lists)</span>
+                        <span className="ml-2 text-xs text-[#3D3D3D]/40 font-normal">(supports bold, italic, bullet lists, tables and inline images)</span>
                     </label>
                     <RichTextEditor
                         value={form.content}
@@ -318,8 +345,75 @@ export default function AdminBlogEditor() {
                     {errors.content && <p className="text-xs text-red-500">{errors.content}</p>}
                 </div>
 
-                {/* Published toggle */}
-                <label className="flex items-center gap-4 cursor-pointer select-none">
+                {/* ── SEO Section (NEW) ──────────────── */}
+                <div className="flex flex-col gap-5 pt-2 border-t border-[rgba(190,190,190,0.3)]">
+                    <div>
+                        <p className="text-xs font-bold text-[#3D3D3D]/40 uppercase tracking-widest mt-4 mb-1">
+                            SEO / Meta Tags
+                        </p>
+                        <p className="text-xs text-[#3D3D3D]/40">
+                            Controls how this post appears in Google results and social media link previews.
+                        </p>
+                    </div>
+
+                    {/* Meta Title */}
+                    <div className="flex flex-col gap-1.5">
+                        <div className="flex items-center">
+                            <label className="text-sm font-semibold text-[#3D3D3D]">Meta Title</label>
+                            <CharCount value={form.metaTitle} max={60} />
+                        </div>
+                        <input
+                            name="metaTitle"
+                            type="text"
+                            value={form.metaTitle}
+                            onChange={handleChange}
+                            placeholder="Defaults to post title if left empty"
+                            className={inputClass(false)}
+                        />
+                    </div>
+
+                    {/* Meta Description */}
+                    <div className="flex flex-col gap-1.5">
+                        <div className="flex items-center">
+                            <label className="text-sm font-semibold text-[#3D3D3D]">Meta Description</label>
+                            <CharCount value={form.metaDescription} max={160} />
+                        </div>
+                        <textarea
+                            name="metaDescription"
+                            rows={3}
+                            value={form.metaDescription}
+                            onChange={handleChange}
+                            placeholder="Short description shown under the title in Google results (max 160 chars)"
+                            className={`${inputClass(false)} resize-none`}
+                        />
+                    </div>
+
+                    {/* Google Preview */}
+                    {(form.metaTitle || form.title) && (
+                        <div className="rounded-[14px] border border-[rgba(190,190,190,0.4)] p-4 bg-gray-50/60">
+                            <p className="text-xs font-semibold text-[#3D3D3D]/40 uppercase tracking-widest mb-3">
+                                Google Preview
+                            </p>
+                            <p className="text-blue-600 text-base font-medium leading-tight truncate">
+                                {form.metaTitle || form.title} | Mojingo Blog
+                            </p>
+                            <p className="text-green-700 text-xs mt-0.5">
+                                mojingo.app › blog › {form.slug || 'your-slug'}
+                            </p>
+                            <p className="text-[#3D3D3D]/60 text-sm mt-1 leading-snug line-clamp-2">
+                                {form.metaDescription
+                                    || (form.excerpt
+                                        ? form.excerpt.replace(/<[^>]*>/g, '')  // strip HTML from excerpt
+                                        : 'No description set yet.'
+                                    )
+                                }
+                            </p>
+                        </div>
+                    )}
+                </div>
+
+                {/* ── Published Toggle ───────────────── */}
+                <label className="flex items-center gap-4 cursor-pointer select-none pt-2">
                     <div className="relative">
                         <input
                             type="checkbox"
@@ -341,12 +435,12 @@ export default function AdminBlogEditor() {
                     </div>
                 </label>
 
-                {/* Server error */}
+                {/* ── Server Error ───────────────────── */}
                 {serverError && (
                     <p className="text-sm text-red-500 bg-red-50 px-4 py-3 rounded-[12px]">{serverError}</p>
                 )}
 
-                {/* Actions */}
+                {/* ── Actions ────────────────────────── */}
                 <div className="flex items-center gap-3 pt-2">
                     <button
                         type="button"

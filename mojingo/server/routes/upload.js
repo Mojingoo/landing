@@ -3,7 +3,7 @@ const express = require('express')
 const router = express.Router()
 const multer = require('multer')
 const cloudinary = require('cloudinary').v2
-const authMiddleware = require('../middleware/auth')
+const authMiddleware = require('../middleware/authMiddleware')
 
 // configure cloudinary in .env:
 // CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET
