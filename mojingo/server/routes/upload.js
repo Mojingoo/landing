@@ -5,18 +5,21 @@ const multer = require('multer')
 const cloudinary = require('cloudinary').v2
 const authMiddleware = require('../middleware/authMiddleware')
 
-// configure cloudinary in .env:
-// CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET
-
-const storage = multer.memoryStorage()
-const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } }) // 5MB limit
-
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET
 })
 
+const storage = multer.memoryStorage()
+const upload = multer({
+    storage,
+    limits: { fileSize: 5 * 1024 * 1024 },
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype.startsWith('image/')) cb(null, true)
+        else cb(new Error('Only image files allowed'))
+    }
+})
 // POST /api/upload/image
 // Returns the hosted image URL — used by TipTap editor
 router.post('/image', authMiddleware, upload.single('image'), async (req, res) => {

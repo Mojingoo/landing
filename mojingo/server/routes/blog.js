@@ -1,52 +1,35 @@
 const express = require('express')
 const { BlogPost } = require('../models')
 const protect = require('../middleware/authMiddleware')
-const multer = require('multer')
-const path = require('path')
-const fs = require('fs')
 const router = express.Router()
+const multer = require('multer')
+const cloudinary = require('cloudinary').v2
 
-// Ensure uploads directory exists
-const uploadDir = path.join(__dirname, '..', 'uploads', 'blog')
-if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir, { recursive: true })
-}
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+})
 
-// Multer configuration for file uploads
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, uploadDir)
-    },
-    filename: (req, file, cb) => {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-        cb(null, uniqueSuffix + path.extname(file.originalname))
+// Store in memory — not on disk
+const storage = multer.memoryStorage()
+const upload = multer({
+    storage,
+    limits: { fileSize: 5 * 1024 * 1024 },
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype.startsWith('image/')) cb(null, true)
+        else cb(new Error('Only image files allowed'))
     }
 })
 
-const upload = multer({
-    storage,
-    fileFilter: (req, file, cb) => {
-        const allowedTypes = /jpeg|jpg|png|webp|svg/
-        const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase())
-        const mimetype = allowedTypes.test(file.mimetype) || file.mimetype === 'image/svg+xml'
-        if (extname && mimetype) return cb(null, true)
-        cb(new Error('Only images (jpeg, jpg, png, webp, svg) are allowed'))
-    },
-    limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
-})
-
-// Multer error handling middleware
-function handleUpload(req, res, next) {
-    upload.single('coverImage')(req, res, (err) => {
-        if (err instanceof multer.MulterError) {
-            console.error('Multer error:', err)
-            return res.status(400).json({ message: `Upload error: ${err.message}` })
-        }
-        if (err) {
-            console.error('Upload error:', err)
-            return res.status(400).json({ message: err.message })
-        }
-        next()
+// Helper — upload buffer to Cloudinary, returns secure HTTPS URL
+async function uploadToCloudinary(buffer) {
+    return new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+            { folder: 'mojingo/blog' },
+            (err, result) => err ? reject(err) : resolve(result.secure_url)
+        )
+        stream.end(buffer)
     })
 }
 
@@ -74,7 +57,7 @@ router.get('/', async (req, res) => {
 // ─────────────────────────────────────────────────────
 // PRIVATE — Get all posts including drafts (admin)
 // GET /api/blog/admin/all
-// NOTE: This MUST come before /:slug to avoid route conflict
+// NOTE: Must come before /:slug to avoid route conflict
 // ─────────────────────────────────────────────────────
 router.get('/admin/all', protect, async (req, res) => {
     try {
@@ -103,34 +86,22 @@ router.get('/:slug', async (req, res) => {
     }
 })
 
-router.get('/:slug', async (req, res) => {
-    try {
-        const post = await BlogPost.findOne({
-            where: { slug: req.params.slug, published: true }
-        })
-        if (!post) return res.status(404).json({ message: 'Post not found' })
-        res.json(post)
-    } catch (err) {
-        res.status(500).json({ message: 'Server error' })
-    }
-})
-
-
 // ─────────────────────────────────────────────────────
 // PRIVATE — Create post
 // POST /api/blog
 // ─────────────────────────────────────────────────────
-router.post('/', protect, handleUpload, async (req, res) => {
+router.post('/', protect, upload.single('coverImage'), async (req, res) => {
     try {
         const { title, slug, excerpt, content, category, author, published } = req.body
-        let coverImage = req.body.coverImage // can be a string from frontend if no file uploaded
-
-        if (req.file) {
-            coverImage = `/uploads/blog/${req.file.filename}`
-        }
 
         if (!title || !slug || !content) {
             return res.status(400).json({ message: 'Title, slug and content are required' })
+        }
+
+        // If file uploaded → send to Cloudinary, else use URL string from body
+        let coverImage = req.body.coverImage || ''
+        if (req.file) {
+            coverImage = await uploadToCloudinary(req.file.buffer)
         }
 
         const post = await BlogPost.create({
@@ -158,18 +129,23 @@ router.post('/', protect, handleUpload, async (req, res) => {
 // PRIVATE — Update post
 // PUT /api/blog/:id
 // ─────────────────────────────────────────────────────
-router.put('/:id', protect, handleUpload, async (req, res) => {
+router.put('/:id', protect, upload.single('coverImage'), async (req, res) => {
     try {
         const post = await BlogPost.findByPk(req.params.id)
         if (!post) return res.status(404).json({ message: 'Post not found' })
 
         const updateData = { ...req.body }
 
+        // If new file uploaded → send to Cloudinary
         if (req.file) {
-            updateData.coverImage = `/uploads/blog/${req.file.filename}`
+            updateData.coverImage = await uploadToCloudinary(req.file.buffer)
+        }
+        // If no file and no coverImage string in body → keep existing
+        else if (!updateData.coverImage) {
+            updateData.coverImage = post.coverImage
         }
 
-        // Handle published boolean from FormData
+        // Handle published boolean coming as string from FormData
         if (updateData.published !== undefined) {
             updateData.published = updateData.published === 'true' || updateData.published === true
         }
