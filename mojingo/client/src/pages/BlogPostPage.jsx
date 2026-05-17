@@ -1,7 +1,7 @@
 // src/pages/BlogPostPage.jsx
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 import { Calendar, User, ArrowLeft } from 'lucide-react'
 import api from '@/lib/api'
 
