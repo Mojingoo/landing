@@ -1,37 +1,7 @@
 const express = require('express')
 const { BlogPost } = require('../models')
-const protect = require('../middleware/authMiddleware')
+const protect = require('../middleware/auth')
 const router = express.Router()
-const multer = require('multer')
-const cloudinary = require('cloudinary').v2
-
-cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET
-})
-
-// Store in memory — not on disk
-const storage = multer.memoryStorage()
-const upload = multer({
-    storage,
-    limits: { fileSize: 5 * 1024 * 1024 },
-    fileFilter: (req, file, cb) => {
-        if (file.mimetype.startsWith('image/')) cb(null, true)
-        else cb(new Error('Only image files allowed'))
-    }
-})
-
-// Helper — upload buffer to Cloudinary, returns secure HTTPS URL
-async function uploadToCloudinary(buffer) {
-    return new Promise((resolve, reject) => {
-        const stream = cloudinary.uploader.upload_stream(
-            { folder: 'mojingo/blog' },
-            (err, result) => err ? reject(err) : resolve(result.secure_url)
-        )
-        stream.end(buffer)
-    })
-}
 
 // ─────────────────────────────────────────────────────
 // PUBLIC — Get all published posts, newest first
@@ -57,7 +27,7 @@ router.get('/', async (req, res) => {
 // ─────────────────────────────────────────────────────
 // PRIVATE — Get all posts including drafts (admin)
 // GET /api/blog/admin/all
-// NOTE: Must come before /:slug to avoid route conflict
+// NOTE: This MUST come before /:slug to avoid route conflict
 // ─────────────────────────────────────────────────────
 router.get('/admin/all', protect, async (req, res) => {
     try {
@@ -90,18 +60,12 @@ router.get('/:slug', async (req, res) => {
 // PRIVATE — Create post
 // POST /api/blog
 // ─────────────────────────────────────────────────────
-router.post('/', protect, upload.single('coverImage'), async (req, res) => {
+router.post('/', protect, async (req, res) => {
     try {
-        const { title, slug, excerpt, content, category, author, published } = req.body
+        const { title, slug, excerpt, content, coverImage, category, author, published } = req.body
 
         if (!title || !slug || !content) {
             return res.status(400).json({ message: 'Title, slug and content are required' })
-        }
-
-        // If file uploaded → send to Cloudinary, else use URL string from body
-        let coverImage = req.body.coverImage || ''
-        if (req.file) {
-            coverImage = await uploadToCloudinary(req.file.buffer)
         }
 
         const post = await BlogPost.create({
@@ -112,7 +76,7 @@ router.post('/', protect, upload.single('coverImage'), async (req, res) => {
             coverImage,
             category,
             author,
-            published: published === 'true' || published === true,
+            published: published || false,
         })
 
         res.status(201).json(post)
@@ -129,28 +93,11 @@ router.post('/', protect, upload.single('coverImage'), async (req, res) => {
 // PRIVATE — Update post
 // PUT /api/blog/:id
 // ─────────────────────────────────────────────────────
-router.put('/:id', protect, upload.single('coverImage'), async (req, res) => {
+router.put('/:id', protect, async (req, res) => {
     try {
         const post = await BlogPost.findByPk(req.params.id)
         if (!post) return res.status(404).json({ message: 'Post not found' })
-
-        const updateData = { ...req.body }
-
-        // If new file uploaded → send to Cloudinary
-        if (req.file) {
-            updateData.coverImage = await uploadToCloudinary(req.file.buffer)
-        }
-        // If no file and no coverImage string in body → keep existing
-        else if (!updateData.coverImage) {
-            updateData.coverImage = post.coverImage
-        }
-
-        // Handle published boolean coming as string from FormData
-        if (updateData.published !== undefined) {
-            updateData.published = updateData.published === 'true' || updateData.published === true
-        }
-
-        await post.update(updateData)
+        await post.update(req.body)
         res.json(post)
     } catch (err) {
         console.error('Update post error:', err)
