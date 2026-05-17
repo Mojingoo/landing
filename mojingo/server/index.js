@@ -6,7 +6,10 @@ const sequelize = require('./config/db')
 const app = express()
 
 // Middleware
-app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:5173' }))
+app.use(cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true
+}))
 app.use(express.json())
 app.use('/uploads', express.static('uploads'))
 
