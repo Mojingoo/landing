@@ -120,7 +120,7 @@ export default function EverFeltThis() {
                                 backgroundPosition: ['0% center', '200% center']
                             }}
                             transition={{
-                                duration: 4,
+                                duration: 10,
                                 repeat: Infinity,
                                 ease: "linear"
                             }}

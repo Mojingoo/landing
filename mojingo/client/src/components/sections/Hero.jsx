@@ -41,7 +41,13 @@ export default function Hero() {
                         YOUR MOOD.{' '}
                         <span className="text-[#FF9D42]">YOUR</span>
                         <br />
-                        <span className="bg-gradient-to-r from-[#FF4F93] to-[#FF8E76] bg-clip-text text-transparent">MOMENT.</span>{' '}
+                        <motion.span
+                            animate={{ backgroundPosition: ['0% center', '200% center'] }}
+                            transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+                            className="bg-[linear-gradient(to_right,#FF4F93,#FF8E76,#FF4F93)] bg-[length:200%_auto] bg-clip-text text-transparent"
+                        >
+                            MOMENT.
+                        </motion.span>{' '}
                         YOUR PEOPLE
                     </motion.h1>
 

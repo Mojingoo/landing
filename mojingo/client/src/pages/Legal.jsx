@@ -109,21 +109,7 @@ export default function Legal() {
                                                             </div>
                                                             <div>
                                                                 <p className="text-[14px] font-semibold text-[#3D3D3D]/60 mb-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Email Us</p>
-                                                                <p className="text-[16px] font-bold text-[#3D3D3D]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>info@mojingo.app</p>
-                                                            </div>
-                                                        </div>
-
-                                                        {/* Location */}
-                                                        <div className="flex items-start gap-4">
-                                                            <div className="w-12 h-12 rounded-full bg-[#FFE1EB]/60 flex items-center justify-center shrink-0 mt-1">
-                                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF4F93" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                                                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-                                                                    <circle cx="12" cy="10" r="3" />
-                                                                </svg>
-                                                            </div>
-                                                            <div>
-                                                                <p className="text-[14px] font-semibold text-[#3D3D3D]/60 mb-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Location</p>
-                                                                <p className="text-[16px] font-bold text-[#3D3D3D]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>101C Ashesh Enclave, Lalpur, Ranchi</p>
+                                                                <p className="text-[16px] font-bold text-[#3D3D3D]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>info@mojingo.co</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -182,21 +168,7 @@ export default function Legal() {
                                 </div>
                                 <div>
                                     <p className="text-[14px] font-semibold text-[#3D3D3D]/60 mb-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Email Us</p>
-                                    <p className="text-[16px] font-bold text-[#3D3D3D]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>info@mojingo.app</p>
-                                </div>
-                            </div>
-
-                            {/* Location */}
-                            <div className="flex items-start gap-4">
-                                <div className="w-12 h-12 rounded-full bg-[#FFF5E5] flex items-center justify-center shrink-0 mt-1">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#DEAA3D" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-                                        <circle cx="12" cy="10" r="3" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <p className="text-[14px] font-semibold text-[#3D3D3D]/60 mb-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Location</p>
-                                    <p className="text-[16px] font-bold text-[#3D3D3D]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>101C Ashesh Enclave, Lalpur, Ranchi</p>
+                                    <p className="text-[16px] font-bold text-[#3D3D3D]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>info@mojingo.co</p>
                                 </div>
                             </div>
                         </div>

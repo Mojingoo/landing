@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { UserPlus, Heart, RefreshCw } from 'lucide-react'
+import { hoverCardScale } from '@/lib/animations'
 
 export default function BuiltAsACommunity() {
     return (
@@ -36,13 +37,7 @@ export default function BuiltAsACommunity() {
                         <motion.div
                             initial={{ opacity: 0, x: -20 }}
                             whileInView={{ opacity: 1, x: 0 }}
-                            whileHover={{ 
-                                y: -5, 
-                                scale: 1.02,
-                                borderColor: '#FFB800',
-                                boxShadow: '0 15px 30px rgba(0,0,0,0.08)',
-                                transition: { duration: 0.1, ease: 'easeOut' }
-                            }}
+                            whileHover={hoverCardScale('#FFB800')}
                             viewport={{ once: true }}
                             transition={{ duration: 0.4, delay: 0.1 }}
                             className="bg-white rounded-3xl md:rounded-full px-5 py-4 md:px-6 md:py-4 flex items-center gap-4 md:gap-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-[#f0f0f0] cursor-default transition-colors duration-100"
@@ -59,13 +54,7 @@ export default function BuiltAsACommunity() {
                         <motion.div
                             initial={{ opacity: 0, x: -20 }}
                             whileInView={{ opacity: 1, x: 0 }}
-                            whileHover={{ 
-                                y: -5, 
-                                scale: 1.02,
-                                borderColor: '#FF4F93',
-                                boxShadow: '0 15px 30px rgba(0,0,0,0.08)',
-                                transition: { duration: 0.1, ease: 'easeOut' }
-                            }}
+                            whileHover={hoverCardScale('#FF4F93')}
                             viewport={{ once: true }}
                             transition={{ duration: 0.4, delay: 0.2 }}
                             className="bg-white rounded-3xl md:rounded-full px-5 py-4 md:px-6 md:py-4 flex items-center gap-4 md:gap-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-[#f0f0f0] cursor-default transition-colors duration-100"
@@ -82,13 +71,7 @@ export default function BuiltAsACommunity() {
                         <motion.div
                             initial={{ opacity: 0, x: -20 }}
                             whileInView={{ opacity: 1, x: 0 }}
-                            whileHover={{ 
-                                y: -5, 
-                                scale: 1.02,
-                                borderColor: '#FFB800',
-                                boxShadow: '0 15px 30px rgba(0,0,0,0.08)',
-                                transition: { duration: 0.1, ease: 'easeOut' }
-                            }}
+                            whileHover={hoverCardScale('#FFB800')}
                             viewport={{ once: true }}
                             transition={{ duration: 0.4, delay: 0.3 }}
                             className="bg-white rounded-3xl md:rounded-full px-5 py-4 md:px-6 md:py-4 flex items-center gap-4 md:gap-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-[#f0f0f0] cursor-default transition-colors duration-100"

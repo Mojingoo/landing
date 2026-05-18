@@ -1,6 +1,7 @@
 // src/components/sections/WhatIsMojingo.jsx
 import { motion } from 'framer-motion'
 import { Zap, Smile, Sparkles } from 'lucide-react'
+import { hoverWobble, hoverCardScale } from '@/lib/animations'
 
 const features = [
     {
@@ -66,10 +67,11 @@ export default function WhatIsMojingo() {
                         transition={{ duration: 0.6 }}
                         className="flex items-center justify-start lg:-ml-12"
                     >
-                        <img
+                        <motion.img
                             src="/What_is_Mojingo.svg"
                             alt="What is Mojingo"
                             className="w-full max-w-[650px]"
+                            whileHover={hoverWobble}
                         />
                     </motion.div>
 
@@ -90,7 +92,8 @@ export default function WhatIsMojingo() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ duration: 0.4, delay: feature.id * 0.12 }}
-                                    className="flex items-start gap-4 bg-white rounded-2xl p-5 border border-[#FFE8EF] shadow-[0_4px_20px_rgba(0,0,0,0.03)]"
+                                    whileHover={hoverCardScale(feature.iconColor)}
+                                    className="flex items-start gap-4 bg-white rounded-2xl p-5 border border-[#FFE8EF] shadow-[0_4px_20px_rgba(0,0,0,0.03)] cursor-pointer"
                                 >
                                     <div
                                         className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
