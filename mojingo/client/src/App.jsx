@@ -1,4 +1,5 @@
 // src/App.jsx
+import { useEffect, useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
@@ -27,6 +28,7 @@ import AdminLegal from './pages/admin/AdminLegal'
 import ProtectedRoute from './components/ProtectedRoute'
 import { AuthProvider } from './context/AuthContext'
 import ScrollToTop from './components/ScrollToTop'
+import { isLoggedIn } from '@/lib/auth'
 
 function LandingPage() {
   return (
@@ -59,6 +61,20 @@ function MainLayout({ children }) {
 }
 
 export default function App() {
+  const [checking, setChecking] = useState(true)
+
+  useEffect(() => {
+    if (isLoggedIn()) {
+      // Already logged in — skip landing, go to app
+      window.location.href = 'https://app.mojingo.co'
+    } else {
+      setChecking(false)
+    }
+  }, [])
+
+  // Show blank while checking — prevents 1 frame flash of landing
+  if (checking) return null
+
   return (
     <AuthProvider>
       <BrowserRouter>
