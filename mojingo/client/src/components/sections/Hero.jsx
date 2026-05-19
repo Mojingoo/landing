@@ -64,7 +64,9 @@ export default function Hero() {
                     {/* CTA Button */}
                     <motion.div variants={fadeUp}>
                         <a
-                            href="#open-mojingo"
+                            href="https://app.mojingo.co"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="inline-flex items-center justify-center bg-[#FF4F93] hover:bg-[#e84384] active:scale-[0.97] text-white text-[15px] font-medium rounded-full px-8 py-3.5 shadow-[0_4px_20px_rgba(255,79,147,0.35)] hover:shadow-[0_6px_28px_rgba(255,79,147,0.45)] transition-all duration-200"
                             style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
                             id="hero-cta-open-mojingo"

@@ -62,7 +62,7 @@ export default function Footer() {
                         className="mb-8"
                     >
                         <a
-                            href="https://www.mojingo.app/phone"
+                            href="https://app.mojingo.co"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center justify-center bg-[#FF4F93] hover:bg-[#e84384] active:scale-[0.97] text-white text-[14px] font-medium rounded-full px-7 py-2.5 shadow-[0_4px_16px_rgba(255,79,147,0.3)] hover:shadow-[0_6px_24px_rgba(255,79,147,0.4)] transition-all duration-200"
