@@ -36,9 +36,9 @@ export default function AdminLogin() {
 
     return (
         <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center px-4 relative overflow-hidden">
-            {/* Background Logo */}
-            <div className="absolute inset-0 z-0 opacity-[0.35] pointer-events-none flex items-center justify-center p-20">
-                <img src="/logo_mobile.svg" alt="" className="w-full h-full object-contain opacity-20" />
+            {/* Background Logo Watermark */}
+            <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center overflow-hidden p-4 sm:p-20">
+                <img src="/logo_mobile.svg" alt="" className="w-[140%] sm:w-full h-auto sm:h-full object-contain opacity-[0.05] sm:opacity-10 max-w-none sm:max-w-full" />
             </div>
 
             <motion.div
