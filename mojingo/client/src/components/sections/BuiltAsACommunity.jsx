@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { UserPlus, Heart, RefreshCw } from 'lucide-react'
-import { hoverCardScale } from '@/lib/animations'
+import { hoverCardScale, hoverWobble } from '@/lib/animations'
 
 export default function BuiltAsACommunity() {
     return (
@@ -93,11 +93,12 @@ export default function BuiltAsACommunity() {
                         transition={{ duration: 0.5 }}
                         className="relative w-full lg:col-span-5 xl:col-span-6 flex justify-center lg:justify-end lg:translate-x-8 xl:translate-x-12"
                     >
-                        <img 
+                        <motion.img 
                             src="/built_as_community.svg" 
                             alt="Built as a community"
                             className="w-full max-w-[550px] lg:max-w-none lg:w-[130%] xl:w-[120%] h-auto"
                             style={{ objectFit: 'contain' }}
+                            whileHover={hoverWobble}
                         />
                     </motion.div>
                 </div>

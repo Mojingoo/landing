@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { CircleCheckBig } from 'lucide-react'
+import { hoverWobble } from '@/lib/animations'
 
 const points = [
     'Not a dating app',
@@ -74,10 +75,11 @@ export default function WhyPeopleChooseMojingo() {
                             transition={{ duration: 0.6, delay: 0.15 }}
                             className="flex-1 flex justify-center"
                         >
-                            <img
+                            <motion.img
                                 src="/whypeoplechoosemojingo.svg"
                                 alt="Why people choose Mojingo"
                                 className="w-full max-w-[550px] h-auto object-contain"
+                                whileHover={hoverWobble}
                             />
                         </motion.div>
                     </div>
@@ -104,10 +106,11 @@ export default function WhyPeopleChooseMojingo() {
                             transition={{ duration: 0.5, delay: 0.1 }}
                             className="w-full flex justify-center mb-10"
                         >
-                            <img
+                            <motion.img
                                 src="/whypeoplechoosemojingo.svg"
                                 alt="Why people choose Mojingo"
                                 className="w-full max-w-[340px] h-auto object-contain"
+                                whileHover={hoverWobble}
                             />
                         </motion.div>
 
