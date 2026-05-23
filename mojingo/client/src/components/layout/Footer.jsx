@@ -171,7 +171,7 @@ export default function Footer() {
                                 className="text-[12px] text-white"
                                 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
                             >
-                                @2026 Mojingo. All rights reserved.
+                                © 2026 Mojingo Private Limited. All rights reserved.
                             </p>
                             <img
                                 src="/logo_mobile.svg"
@@ -294,7 +294,7 @@ export default function Footer() {
                         className="text-[12px] text-white"
                         style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
                     >
-                        @2026 Mojingo. All rights reserved.
+                        © 2026 Mojingo Private Limited. All rights reserved.
                     </p>
                 </div>
             </div>
