@@ -16,8 +16,8 @@ const footerLinks = [
 ]
 const socials = [
     { name: 'Facebook', url: 'https://www.facebook.com/people/Mojingo/61578901409829/' },
-    { name: 'Instagram', url: 'https://www.instagram.com/mojingoapp' },
-    { name: 'Linkedin', url: '#' },
+    { name: 'Instagram', url: 'https://www.instagram.com/mojingo.co' },
+    { name: 'Linkedin', url: 'https://www.linkedin.com/company/mojingo/' },
     { name: 'X', url: 'https://x.com/Mojingoapp' }
 ]
 
