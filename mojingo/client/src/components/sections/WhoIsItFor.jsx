@@ -45,7 +45,7 @@ const targets = [
     {
         id: 6,
         title: 'Event or Activity Partners',
-        subtitle: 'Concerts, hikes, workshops - together',
+        subtitle: 'Concerts, movies, party-together',
         Icon: PartyPopper,
         color: '#FF4F93',
         bg: '#FFF0F5'

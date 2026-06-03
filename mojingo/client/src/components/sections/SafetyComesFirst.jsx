@@ -24,7 +24,7 @@ const safetyFeatures = [
     },
     {
         id: 5,
-        title: 'No private meetups after 10 PM',
+        title: 'No private meetups after 11 PM',
         Icon: Clock,
     },
     {

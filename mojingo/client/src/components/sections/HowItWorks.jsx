@@ -15,7 +15,7 @@ const steps = [
                     <span className="px-3.5 py-1.5 rounded-full bg-[#FF4F93] text-white text-[10px] font-medium">Chill</span>
                     <span className="px-3.5 py-1.5 rounded-full bg-white text-[#3D3D3D] text-[10px] font-medium">Playful</span>
                     <span className="px-3.5 py-1.5 rounded-full bg-white text-[#3D3D3D] text-[10px] font-medium">Heavy</span>
-                    <span className="px-3.5 py-1.5 rounded-full bg-white text-[#3D3D3D] text-[10px] font-medium">Adventure</span>
+                    <span className="px-3.5 py-1.5 rounded-full bg-white text-[#3D3D3D] text-[10px] font-medium">Explore</span>
                 </div>
             </div>
         ),
