@@ -11,6 +11,7 @@ const badges = [
 const footerLinks = [
     { label: 'About', to: '/#about' },
     { label: 'Blog', to: '/blog' },
+    { label: 'Team', to: '/team' },
     { label: 'Legal', to: '/legal' },
     { label: 'Contact', to: '/contact' },
 ]
