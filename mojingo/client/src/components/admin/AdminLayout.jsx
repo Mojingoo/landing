@@ -66,7 +66,7 @@ export default function AdminLayout() {
             <main className="flex-1 overflow-auto relative">
                 {/* Background Watermark */}
                 <div className="fixed inset-0 z-0 opacity-[0.30] pointer-events-none flex items-center justify-center p-20 ml-64">
-                    <img src="/logo_mobile.svg" alt="" className="w-full max-w-2xl h-auto object-contain opacity-20" />
+                    <img src="/logo_mobile.svg" alt="Mojingo logo watermark" className="w-full max-w-2xl h-auto object-contain opacity-20" />
                 </div>
                 <div className="relative z-10">
                     <Outlet />

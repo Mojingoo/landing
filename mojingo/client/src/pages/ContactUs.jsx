@@ -288,12 +288,12 @@ export default function ContactUs() {
                             {/* Background Clouds */}
                             <img
                                 src="/contact_pop_up_cloud.svg"
-                                alt=""
+                                alt="Decorative cloud background"
                                 className="absolute -bottom-8 -left-12 w-[200px] sm:w-[280px] opacity-60 pointer-events-none"
                             />
                             <img
                                 src="/contact_pop_up_cloud.svg"
-                                alt=""
+                                alt="Decorative cloud background"
                                 className="absolute -bottom-8 -right-12 w-[240px] sm:w-[320px] opacity-60 pointer-events-none transform scale-x-[-1]"
                             />
 

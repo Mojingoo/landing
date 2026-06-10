@@ -38,7 +38,7 @@ export default function AdminLogin() {
         <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center px-4 relative overflow-hidden">
             {/* Background Logo Watermark */}
             <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center overflow-hidden p-4 sm:p-20">
-                <img src="/logo_mobile.svg" alt="" className="w-[140%] sm:w-full h-auto sm:h-full object-contain opacity-[0.05] sm:opacity-10 max-w-none sm:max-w-full" />
+                <img src="/logo_mobile.svg" alt="Mojingo logo watermark" className="w-[140%] sm:w-full h-auto sm:h-full object-contain opacity-[0.05] sm:opacity-10 max-w-none sm:max-w-full" />
             </div>
 
             <motion.div

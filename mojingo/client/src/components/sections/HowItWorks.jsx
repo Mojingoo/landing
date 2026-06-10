@@ -125,7 +125,7 @@ export default function HowItWorks() {
                     {/* Desktop Background SVG */}
                     <img
                         src="/how_it_works_bg.svg"
-                        alt=""
+                        alt="How it works desktop background"
                         className="hidden md:block absolute pointer-events-none z-0 max-w-none"
                         style={{
                             width: '105.5%',
@@ -139,7 +139,7 @@ export default function HowItWorks() {
                     {/* Mobile Background SVG */}
                     <img
                         src="/how_it_works_bg_mobile.svg"
-                        alt=""
+                        alt="How it works mobile background"
                         className="block md:hidden w-full h-auto px-4"
                     />
 
@@ -221,21 +221,21 @@ export default function HowItWorks() {
                                     {index === 0 && (
                                         <img
                                             src="/arrow_upwards.svg"
-                                            alt=""
+                                            alt="Arrow pointing upwards to next step"
                                             className="hidden lg:block absolute -right-[60px] xl:-right-[70px] -top-11.5 w-[90px] xl:w-[110px] z-20 pointer-events-none"
                                         />
                                     )}
                                     {index === 1 && (
                                         <img
                                             src="/arrow_downwards.svg"
-                                            alt=""
+                                            alt="Arrow pointing downwards to next step"
                                             className="hidden lg:block absolute -right-[60px] xl:-right-[70px] -bottom-11.5 w-[90px] xl:w-[110px] z-20 pointer-events-none"
                                         />
                                     )}
                                     {index === 2 && (
                                         <img
                                             src="/arrow_upwards.svg"
-                                            alt=""
+                                            alt="Arrow pointing upwards to next step"
                                             className="hidden lg:block absolute -right-[60px] xl:-right-[70px] -top-11.5 w-[90px] xl:w-[110px] z-20 pointer-events-none"
                                         />
                                     )}

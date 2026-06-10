@@ -123,7 +123,7 @@ export default function Legal() {
                         {/* Empty state */}
                         {categories.every(c => (c.sections || []).filter(s => s.isActive).length === 0) && (
                             <div className="text-center py-20">
-                                <img src="/logo_mobile.svg" alt="" className="w-16 h-auto opacity-20 mx-auto mb-4" />
+                                <img src="/logo_mobile.svg" alt="Mojingo logo watermark" className="w-16 h-auto opacity-20 mx-auto mb-4" />
                                 <p className="text-[#3D3D3D]/40 text-sm">No legal content published yet.</p>
                             </div>
                         )}

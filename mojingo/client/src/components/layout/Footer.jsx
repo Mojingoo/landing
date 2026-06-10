@@ -102,7 +102,7 @@ export default function Footer() {
                 {/* Desktop Footer SVG */}
                 <img
                     src="/FOOTER.svg"
-                    alt=""
+                    alt="Mojingo desktop footer background"
                     className="absolute top-0 left-0 w-full h-auto z-0 pointer-events-none"
                 />
 
@@ -202,7 +202,7 @@ export default function Footer() {
                 {/* Mobile Footer SVG */}
                 <img
                     src="/FOOTER_MOBILE.svg"
-                    alt=""
+                    alt="Mojingo mobile footer background"
                     className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none object-cover object-top"
                 />
 

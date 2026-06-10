@@ -51,7 +51,7 @@ export default function SafetyComesFirst() {
                 {/* Mobile background overlay */}
                 <img
                     src="/safety_comes_first_bg_mobile.svg"
-                    alt=""
+                    alt="Safety features background for mobile"
                     className="md:hidden absolute inset-0 w-full h-full object-cover pointer-events-none z-0"
                 />
 
