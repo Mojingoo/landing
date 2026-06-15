@@ -28,7 +28,7 @@ export default function Hero() {
                     <motion.div variants={fadeUp}>
                         <span className="inline-flex items-center gap-2 bg-[#FFF9E5] text-[#3D3D3D] text-[13px] font-medium px-3.5 py-1.5 rounded-full border border-[#FFE899]">
                             <span className="text-[#FF4F93] text-[10px]">●</span>
-                            A companionship platform
+                            Mood Based Social Platform
                         </span>
                     </motion.div>
 
