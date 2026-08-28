@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 
 const features = [
     { id: 1, src: '/CF1.svg', alt: 'Mood-Based Discovery' },
-    { id: 2, src: '/CF2.svg', alt: 'Quick Companion Posts' },
+    { id: 2, src: '/CF2.svg', alt: 'Quick Posts' },
     { id: 3, src: '/CF3.svg', alt: 'Real Meetup Requests' },
     { id: 4, src: '/CF4.svg', alt: 'Free/Paid Companionship' },
 ]
@@ -29,7 +29,7 @@ export default function OurCoreFeatures() {
                         className="text-[14px] md:text-[15px] text-[#3D3D3D]/70 font-medium"
                         style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
                     >
-                        Everything you need for real-life companionship.
+                        Everything you need for real-life connection.
                     </p>
                 </motion.div>
 

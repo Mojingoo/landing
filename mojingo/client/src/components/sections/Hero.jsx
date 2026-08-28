@@ -57,7 +57,7 @@ export default function Hero() {
                         className="text-[15px] sm:text-[16px] text-[#3D3D3D]/80 max-w-[440px] leading-relaxed"
                         style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
                     >
-                        Find companions for the moment you're living right now. Real
+                        Find People for the moment you're living right now. Real
                         people, real meetups, real connection.
                     </motion.p>
 

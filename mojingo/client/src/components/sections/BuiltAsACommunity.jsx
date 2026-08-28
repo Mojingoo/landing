@@ -46,7 +46,7 @@ export default function BuiltAsACommunity() {
                                 <UserPlus size={24} className="text-[#FFB800]" />
                             </div>
                             <p className="text-[13.5px] md:text-[15px] font-medium text-[#3D3D3D] whitespace-normal lg:whitespace-nowrap leading-snug md:leading-normal" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-                                Add companions you trust.
+                                Add people you trust.
                             </p>
                         </motion.div>
 

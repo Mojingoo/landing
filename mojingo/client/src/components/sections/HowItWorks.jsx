@@ -23,8 +23,8 @@ const steps = [
     {
         id: 2,
         number: '02',
-        title: 'Discover Companions',
-        description: 'Browse people near you who share your food.',
+        title: 'Discover Vibers',
+        description: 'Browse people near you who share your mood.',
         cardBg: 'bg-white',
         content: (
             <div className="mt-4 space-y-3">
@@ -90,8 +90,8 @@ const steps = [
         content: (
             <div className="mt-4 border border-[#f0f0f0] rounded-[20px] p-3 space-y-3">
                 <div className="flex items-center justify-between">
-                    <p className="text-[12px] font-bold text-black" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Meetup Confirmed</p>
-                    <span className="text-[10px] text-[#FF4F93] bg-[#FFF0F5] font-semibold rounded-full px-2.5 py-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Verified</span>
+                    <p className="text-[12px] font-bold text-black" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Meetup</p>
+                    <span className="text-[10px] text-[#10B981] bg-[#D1FAE5] font-semibold rounded-full px-2.5 py-1" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Verified</span>
                 </div>
                 <div className="flex items-center gap-3 bg-[#FFF9E5] border border-[#FFE899]/50 rounded-xl p-2.5">
                     <div className="flex items-center justify-center pl-1">

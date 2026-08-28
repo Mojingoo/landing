@@ -25,7 +25,7 @@ const features = [
         icon: Sparkles,
         iconColor: '#FFB800',
         iconBg: '#FFF9E5',
-        title: 'Real-life companionship',
+        title: 'Real-life connection',
         description: 'Move beyond the screen. Meet people for real moments in real places.',
     },
 ]
@@ -52,7 +52,7 @@ export default function WhatIsMojingo() {
                         className="text-[15px] md:text-base text-[#3D3D3D]/70 font-medium max-w-[600px] mx-auto leading-relaxed"
                         style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
                     >
-                        Mojingo is a mood-based companion platform that connects you with real people
+                        Mojingo is a mood-based social platform that connects you with real people
                         who want to do the same thing as you – right now, near you.
                     </p>
                 </motion.div>
